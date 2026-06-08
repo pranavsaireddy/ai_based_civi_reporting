@@ -1,0 +1,48 @@
+// AdminHome.js
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { Ionicons } from '@expo/vector-icons';
+
+import AdminProfile from '../../admin/AdminProfile.jsx';
+import AdminExplore from '../../admin/AdminExplore.jsx';
+import AdminReports from '../../admin/AdminReports.jsx';
+import ReportDetails from '../../admin/ReportDetails.jsx';
+
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function ReportsStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="AdminReports" component={AdminReports} />
+      <Stack.Screen name="ReportDetails" component={ReportDetails} />
+    </Stack.Navigator>
+  );
+}
+
+export default function AdminHome() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName = 'ellipse';
+          if (route.name === 'Profile') iconName = 'person-circle';
+          else if (route.name === 'Explore') iconName = 'compass-outline';
+          else if (route.name === 'Reports') iconName = 'document-text-outline';
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: '#2a448c',
+        tabBarInactiveTintColor: 'gray',
+        headerShown: false,
+      })}
+    >
+      <Tab.Screen name="Reports" component={ReportsStack} options={{ title: 'Reports' }} />
+      <Tab.Screen name="Explore" component={AdminExplore} />
+      <Tab.Screen name="Profile" component={AdminProfile} />
+      
+      
+    </Tab.Navigator>
+  );
+}
